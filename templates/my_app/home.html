@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block title %}Bosh sahifa - E-commerce{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row align-items-center text-white">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Eng yaxshi mahsulotlar</h1>
+                <p class="lead mb-4">Sifatli va arzon mahsulotlarni bizdan toping. Flash sale va chegirmalar bilan!</p>
+                <a href="{% url 'product_list' %}" class="btn btn-light btn-lg">
+                    <i class="fas fa-shopping-bag me-2"></i>Xarid qilish
+                </a>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-shopping-cart" style="font-size: 10rem; opacity: 0.3;"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Flash Sales Section -->
+{% if flash_sales %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h2 class="fw-bold">
+                    <i class="fas fa-bolt text-warning me-2"></i>Flash Sale
+                    <span class="badge bg-danger ms-2">Chegirma!</span>
+                </h2>
+                <p class="text-muted">Cheklangan vaqt uchun maxsus chegirmalar</p>
+            </div>
+        </div>
+        <div class="row">
+            {% for flash_sale in flash_sales %}
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card product-card h-100 position-relative">
+                    <div class="flash-sale-badge">
+                        -{{ flash_sale.discount_percentage }}%
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ flash_sale.product.name }}</h5>
+                        <p class="card-text text-muted">{{ flash_sale.product.description|truncatewords:10 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="text-decoration-line-through text-muted">${{ flash_sale.product.price }}</span>
+                                <span class="fw-bold text-success ms-2">
+                                    ${% widthratio flash_sale.product.price 100 flash_sale.discount_percentage as discount_amount %}
+                                    {{ flash_sale.product.price|floatformat:2|add:"-"|add:discount_amount }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                {{ flash_sale.end_time|timeuntil }} qoldi
+                            </small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{% url 'product_detail' flash_sale.product.pk %}" class="btn btn-primary w-100">
+                            <i class="fas fa-eye me-2"></i>Ko'rish
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{% url 'flash_sales' %}" class="btn btn-outline-primary">
+                <i class="fas fa-bolt me-2"></i>Barcha Flash Sale
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Top Rated Products -->
+{% if top_products %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h2 class="fw-bold">
+                    <i class="fas fa-star text-warning me-2"></i>Eng yaxshi mahsulotlar
+                </h2>
+                <p class="text-muted">Mijozlar tomonidan eng yuqori baho olingan mahsulotlar</p>
+            </div>
+        </div>
+        <div class="row">
+            {% for product in top_products %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card product-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted">{{ product.description|truncatewords:15 }}</p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fw-bold text-primary">${{ product.price }}</span>
+                            {% if product.avg_rating %}
+                            <div class="rating-stars">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= product.avg_rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                <small class="text-muted ms-1">({{ product.avg_rating|floatformat:1 }})</small>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary w-100">
+                            <i class="fas fa-eye me-2"></i>Batafsil
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{% url 'product_list' %}" class="btn btn-outline-primary">
+                <i class="fas fa-box me-2"></i>Barcha mahsulotlar
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Categories Section -->
+{% if categories %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h2 class="fw-bold">
+                    <i class="fas fa-th-large me-2"></i>Kategoriyalar
+                </h2>
+                <p class="text-muted">Turli kategoriyalardagi mahsulotlarni ko'ring</p>
+            </div>
+        </div>
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-lg-3 col-md-6 mb-4">
+                <a href="{% url 'category' category.pk %}" class="category-card d-block text-decoration-none">
+                    <h5 class="mb-0">{{ category.name }}</h5>
+                    <small>Kategoriyani ko'rish</small>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Features Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <i class="fas fa-shipping-fast fa-3x mb-3"></i>
+                <h5>Tez yetkazib berish</h5>
+                <p>24 soat ichida yetkazib berish xizmati</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <i class="fas fa-shield-alt fa-3x mb-3"></i>
+                <h5>Xavfsiz to'lov</h5>
+                <p>100% xavfsiz va himoyalangan to'lov</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <i class="fas fa-headset fa-3x mb-3"></i>
+                <h5>24/7 qo'llab-quvvatlash</h5>
+                <p>Har doim sizning xizmatingizdamiz</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Flash sale countdown timer
+    $('.flash-sale-badge').each(function() {
+        $(this).hover(
+            function() { $(this).css('animation-play-state', 'paused'); },
+            function() { $(this).css('animation-play-state', 'running'); }
+        );
+    });
+});
+</script>
+{% endblock %}

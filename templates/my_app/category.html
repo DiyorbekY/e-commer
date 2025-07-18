@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Kategoriya mahsulotlari</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .product {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ category.name }} - mahsulotlari</h1>
+
+        {% if products %}
+            {% for product in products %}
+                <div class="product">
+                    <h2>{{ product.name }}</h2>
+                    <p>Narxi: ${{ product.price }}</p>
+                    <p>{{ product.description }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Bu kategoriyada hali mahsulotlar mavjud emas.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

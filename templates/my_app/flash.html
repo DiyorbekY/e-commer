@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Flash Sale - Chegirmalar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        .product {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background-color: white;
+        }
+        .product h2 {
+            margin: 0;
+            font-size: 22px;
+            color: #333;
+        }
+        .price {
+            font-size: 20px;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .discount {
+            color: red;
+            font-weight: bold;
+        }
+        .time-range {
+            font-size: 14px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>⚡ Flash Sale - Maxsus Chegirmalar</h1>
+
+    {% if flash_sales %}
+        {% for sale in flash_sales %}
+            <div class="product">
+                <h2>{{ sale.product.name }}</h2>
+                <p class="price">Narxi: ${{ sale.product.price }}</p>
+                <p class="discount">Chegirma: {{ sale.discount_percentage }}%</p>
+                <p class="time-range">
+                    Aksiya vaqti: {{ sale.start_time|date:"d-m-Y H:i" }} - {{ sale.end_time|date:"d-m-Y H:i" }}
+                </p>
+                <p>{{ sale.product.description }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Hozircha hech qanday flash sale (chegirma) mavjud emas.</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
