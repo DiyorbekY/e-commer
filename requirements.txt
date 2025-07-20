@@ -21,6 +21,7 @@ drf-yasg==1.21.10
 idna==3.10
 inflection==0.5.1
 kombu==5.5.4
+gunicorn>=21.2.0
 oauthlib==3.3.0
 packaging==25.0
 pillow==11.2.1
