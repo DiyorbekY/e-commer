@@ -31,7 +31,7 @@ STRIPE_SECRET_KEY=os.getenv('STRIPE_SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['api.softdev.com.uz','www.api.softdev.com.uz']
+ALLOWED_HOSTS = ['api.softdev.com.uz','www.api.softdev.com.uz','*']
 # ALLOWED_HOSTS = ['192.168.65.219', 'localhost', '127.0.0.1']
 
 # Application definition

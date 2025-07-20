@@ -2,8 +2,8 @@ from django.db import models
 from .product import Product
 from django.core.validators import RegexValidator
 
-from django.contrib.auth import get_user_model
-User = get_user_model()
+from django.contrib.auth.models import User
+
 
 phone_regex = RegexValidator(
     regex=r'^\+998\d{9}$',

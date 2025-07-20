@@ -2,9 +2,7 @@ from django.db import models
 from django.utils import timezone
 from .product import Product
 
-from django.contrib.auth import get_user_model
-User = get_user_model()
-
+from django.contrib.auth.models import User
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
