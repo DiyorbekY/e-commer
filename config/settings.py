@@ -14,9 +14,12 @@ from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -32,7 +35,6 @@ STRIPE_SECRET_KEY=os.getenv('STRIPE_SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['api.softdev.com.uz','www.api.softdev.com.uz','*']
-# ALLOWED_HOSTS = ['192.168.65.219', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -86,28 +88,28 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "api_db",
-        'USER': "api_admin",
-        'PASSWORD': 'root1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': "api_db",
+#         'USER': "api_admin",
+#         'PASSWORD': 'root1',
+#         'PORT': '5432',
+#     }
+# }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': os.getenv("DB_NAME", "postgres"),
 #         'USER': os.getenv("DB_USER", "postgres"),
 #         'PASSWORD': os.getenv("DB_PASSWORD", "postgres"),
-#         'HOST': os.getenv("DB_HOST", "db"),
+#         'HOST': os.getenv("DB_HOST", "localhost"),
 #         'PORT': os.getenv("DB_PORT", "5432"),
 #     }
 # }
@@ -177,3 +179,4 @@ DJOSER = {
     'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {},
 }
+
